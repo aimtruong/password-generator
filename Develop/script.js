@@ -217,12 +217,13 @@ function writePassword() {
   
   if(x === pwle){
     console.log(password);
-    password = password.slice(,password.length-pwle);
+    password = password.slice(0,pwle);
     console.log(password);
   }
 
   passwordText.value = password;
 
+  
 
 }
 
