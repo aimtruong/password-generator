@@ -3,6 +3,9 @@
 ## Description
 A password generator that can include lowercase, uppercase, numeric, and special characters if requested with a specified length.  Note that button can only be pressed once.
 
+## Website
+https://aimtruong.github.io/password-generator/
+
 ## Preview
 - when open:
 
