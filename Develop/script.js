@@ -7,7 +7,7 @@ function passwordLength(){
     // change string from prompt to int
     passLength = parseInt(passLength);
 
-    if(passLength >= 8 || passLength <= 128){
+    if(passLength >= 8 && passLength <= 128){
       console.log("include password length to be " + passLength);
       return passLength;
     }
@@ -29,6 +29,7 @@ function passwordLower(){
     }
     else if(lowerChars === 2){
       console.log("do not include lowercase characters");
+      return lowerChars;
     }
     else{
       window.alert("You need to provide a valid answer! Please try again.");
@@ -48,6 +49,7 @@ function passwordUpper(){
     }
     else if(upperChars === 2){
       console.log("do not include uppercase characters");
+      return upperChars;
     }
     else{
       window.alert("You need to provide a valid answer! Please try again.");
@@ -67,6 +69,7 @@ function passwordNum(){
     }
     else if(numChars === 2){
       console.log("do not include numeric characters");
+      return numChars;
     }
     else{
       window.alert("You need to provide a valid answer! Please try again.");
@@ -86,6 +89,7 @@ function passwordSpec(){
     }
     else if(SpecChars === 2){
       console.log("do not include special characters");
+      return SpecChars;
     }
     else{
       window.alert("You need to provide a valid answer! Please try again.");
@@ -94,82 +98,128 @@ function passwordSpec(){
 };
 
 
+// global variable
+var x = -1;
+
+
 // functions to generate random characters
 // random lowercase characters
-function randomLower(x){
+function randomLower(){
   var lowerAlpha = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
   var lower = Math.floor(Math.random() * 26) + 1;
-  password[x] = lowerAlpha[lower];
+  return lowerAlpha[lower];
 };
 
 // random uppercase characters
-function randomUpper(x){
+function randomUpper(){
   var upperAlpha = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
   var upper = Math.floor(Math.random() * 26) + 1;
-  password[x] = upperAlpha[upper];
+  return upperAlpha[upper];
 };
 
 // random numeric characters
-function randomNum(x){
+function randomNum(){
   var numAlpha = ['0','1','2','3','4','5','6','7','8','9'];
   var num = Math.floor(Math.random() * 10) + 1;
-  password[x] = numAlpha[num];
+  return numAlpha[num];
 };
 
 // random special characters
-function randomSpec(x){
+function randomSpec(){
   var specAlpha = [' ','!','"','#','$','%','&','(',')','*','+',',','-','.','/',':',';','<','=','>','?','@',']','\',','[','^','_','`','{','|','}','~'];
   var spec = Math.floor(Math.random() * 32) + 1;
-  password[x] = specAlpha[spec];
+  return specAlpha[spec];
 };
 
-
-// function to generate what password-x will be
-function whatChar(){
-  var char = Math.floor(Math.random() * 4) + 1;
-  switch (char){
-    case 1:
-      password[x] = randomLower();
-      return password[x];
-
-    case 2:
-      password[x] = randomUpper();
-      return password[x];
-
-    case 3:
-      password[x] = randomNum();
-      return password[x];
-
-    case 4:
-      password[x] = randomSpec();
-      return password[x];
-
-    default:
-      console.log("error");
-      break;
-  }
-}
 
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
 
 // Write password to the #password input
 function writePassword() {
-  // var password = generatePassword();
   var passwordText = document.querySelector("#password");
 
-  var pwl = passwordLength();
+  var pwle = passwordLength();
+  var pwlo = passwordLower();
+  var pwu = passwordUpper();
+  var pwn = passwordNum();
+  var pws = passwordSpec();
 
-  for(var i = 0; i < pwl; i++){
-    
-    for(var j = 0; j < pwl; j++){
-      // choose what kind of char x will be
-      password[x] = whatChar();
+  var password = "password12password12password12password12password12password12password12password12password12password12password12password12password";
+
+  // replace function *credits to https://www.techiedelight.com/replace-character-specified-index-javascript/
+  String.prototype.replaceAt = function(index, replacement){
+    if (index >= this.length) {
+        return this.valueOf();
     }
+ 
+    var chars = this.split('');
+    chars[index] = replacement;
+    return chars.join('');
+    }
+ 
+  // function to generate what password-x will be
+  function whatChar(){
+    var char = Math.floor(Math.random() * 4) + 1;
+    var letter = "";
+    switch (char){
+      case 1:
+        if(pwlo === 1){
+          letter = randomLower();
+          password = password.replaceAt(x, letter);
+          return password;  
+        }
+        else if(pwlo === 2){
+          return whatChar();
+        }
 
+      case 2:
+        if(pwu === 1){
+          letter = randomUpper();
+          password = password.replaceAt(x, letter);
+          return password;
+        }
+        else if(pwu === 2){
+          return whatChar();
+        }
+
+      case 3:
+        if(pwn === 1){
+          letter = randomNum();
+          password = password.replaceAt(x, letter);
+          return password;
+        }
+        else if(pwn === 2){
+          return whatChar();
+        }
+
+      case 4:
+        if(pws === 1){
+          letter = randomSpec();
+          password = password.replaceAt(x, letter);
+          return password;
+        }
+        else if(pws === 2){
+          return whatChar();
+        }
+      
+      default:
+        console.log("error");
+        break;
+    }
+  };
+
+  for(x; x < pwle; x++){
+    // choose what kind of char x will be and replace
+    //debugger;
+    password[x] = whatChar();
   }
-
-
+  
+  if(x === pwle){
+    console.log(password);
+    password = password.slice(,password.length-pwle);
+    console.log(password);
+  }
 
   passwordText.value = password;
 
