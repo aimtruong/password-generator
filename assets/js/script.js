@@ -126,7 +126,7 @@ function randomSpec(){
 };
 
 
-// global variable
+// global variable x
 var x = 0;
 
 // Get references to the #generate element
