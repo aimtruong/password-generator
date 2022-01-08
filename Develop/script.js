@@ -1,6 +1,4 @@
-// Assignment code here
-
-// criteria prompts
+// criteria prompt functions
 // length of password?
 function passwordLength(){
   var passLength = window.prompt("How many characters will the password have: Enter a number between 8 to 128.");
@@ -98,10 +96,6 @@ function passwordSpec(){
 };
 
 
-// global variable
-var x = -1;
-
-
 // functions to generate random characters
 // random lowercase characters
 function randomLower(){
@@ -132,19 +126,24 @@ function randomSpec(){
 };
 
 
+// global variable
+var x = 0;
+
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
 
 // Write password to the #password input
-function writePassword() {
+function writePassword(){
   var passwordText = document.querySelector("#password");
 
+  // get criteria from prompt functions
   var pwle = passwordLength();
   var pwlo = passwordLower();
   var pwu = passwordUpper();
   var pwn = passwordNum();
   var pws = passwordSpec();
 
+  // have variable for password replacement
   var password = "password12password12password12password12password12password12password12password12password12password12password12password12password";
 
   // replace function *credits to https://www.techiedelight.com/replace-character-specified-index-javascript/
@@ -202,29 +201,23 @@ function writePassword() {
         else if(pws === 2){
           return whatChar();
         }
-      
-      default:
-        console.log("error");
-        break;
     }
   };
 
+  // for loop to replace each char for password
   for(x; x < pwle; x++){
-    // choose what kind of char x will be and replace
     //debugger;
     password[x] = whatChar();
-  }
+  };
   
+  // slice rest of string off for password
   if(x === pwle){
     console.log(password);
     password = password.slice(0,pwle);
     console.log(password);
-  }
+  };
 
   passwordText.value = password;
-
-  
-
 }
 
 // Add event listener to generate button
